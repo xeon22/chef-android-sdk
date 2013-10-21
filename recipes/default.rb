@@ -23,7 +23,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "java"
+unless node['platform'].match(/mac_os_x/)
+  include_recipe "java"
+end
 
 setup_root       = node['android-sdk']['setup_root'].to_s.empty? ? node['ark']['prefix_home'] : node['android-sdk']['setup_root']
 android_home     = File.join(setup_root, node['android-sdk']['name'])
@@ -86,7 +88,7 @@ end
 #
 # Configure environment variables (ANDROID_HOME and PATH)
 #
-template "/etc/profile.d/#{node['android-sdk']['name']}.sh"  do
+template node['android-sdk']['profile'] do
   source "android-sdk.sh.erb"
   mode   0644
   owner  node['android-sdk']['owner']
