@@ -89,7 +89,6 @@ end
 # Configure environment variables (ANDROID_HOME and PATH)
 #
 template node['android-sdk']['profile'] do
-  source "android-sdk.sh.erb"
   mode   0644
   owner  node['android-sdk']['owner']
   group  node['android-sdk']['group']
