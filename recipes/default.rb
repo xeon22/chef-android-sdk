@@ -95,6 +95,24 @@ template node['android-sdk']['profile'] do
   variables(
     :android_home => android_home
   )
+  only_if do
+    node['os'].eql?('linux')
+  end
+end
+
+#
+# Configure environment variables (ANDROID_HOME and PATH)
+#
+file node['android-sdk']['profile'] do
+  mode   0644
+  owner  node['android-sdk']['owner']
+  group  node['android-sdk']['group']
+  content android_home
+
+  only_if do
+    node['platform'].eql?('mac_os_x')
+  end
+  action  :create
 end
 
 package 'expect'
